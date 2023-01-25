@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: minesweeper-pipeline-
+spec:
+  pipelineRef:
+    name: maven-pipeline
+  serviceAccountName: pipeline
+  params:
+  - name: application-name
+    value: microsweeper-appservice
+  - name: dependency-git-url
+    value: https://github.com/<YOUR-GITHUB-ID>/common-java-dependencies
+  - name: application-git-url
+    value: https://github.com/<YOUR-GITHUB-ID>/aro-workshop-app
+  - name: dockerfile-path
+    value: src/main/docker/Dockerfile.jvm
+  - name: image-name
+    value: image-registry.openshift-image-registry.svc:5000/microsweeper-ex/minesweeper
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: minesweeper-source-pvc
