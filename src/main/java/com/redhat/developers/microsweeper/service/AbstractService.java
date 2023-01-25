@@ -1,7 +1,10 @@
 package com.redhat.developers.microsweeper.service;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.redhat.developers.microsweeper.model.Score;
 
@@ -17,13 +20,16 @@ public class AbstractService {
     public String time;
     public String success;
     
+    @ConfigProperty(name = "dynamodb.table", defaultValue="score")
+    public String table;
+
     public static final String SCORE_NAME_COL = "name";
     public static final String SCORE_LEVEL_COL = "level";
     public static final String SCORE_TIME_COL = "time";
     public static final String SCORE_SUCCESS_COL = "success";
 
     public String getTableName() {
-        return "score";
+        return table;
     }
 
     protected ScanRequest scanRequest() {
