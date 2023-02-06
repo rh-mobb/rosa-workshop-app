@@ -5,19 +5,17 @@
   <groupId>org.acme</groupId>
   <artifactId>microsweeper-appservice</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-
   <properties>
+    <awssdk.testcontainers.version>1.12.57</awssdk.testcontainers.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <quarkus-amazon-services.version>1.3.1</quarkus-amazon-services.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>2.15.2.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <quarkus-amazon-services.version>1.3.1</quarkus-amazon-services.version>
-    <awssdk.testcontainers.version>1.12.57</awssdk.testcontainers.version>
   </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -36,7 +34,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>io.quarkiverse.amazonservices</groupId>
@@ -62,13 +59,13 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
     </dependency>
-    <!-- <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-openshift</artifactId>
-    </dependency> -->
     <dependency>
       <groupId>io.quarkiverse.amazonservices</groupId>
       <artifactId>quarkus-amazon-ses</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-openshift</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -95,6 +92,14 @@
       <artifactId>aws-java-sdk-core</artifactId>
       <version>${awssdk.testcontainers.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>sts</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>apache-client</artifactId>
     </dependency>
   </dependencies>
   <build>
@@ -156,6 +161,10 @@
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
+	<skipITs>false</skipITs>
+        <quarkus.native.additional-build-args>-H:ReflectionConfigurationFiles=reflect-config.json,
+          --initialize-at-run-time=org.apache.http.impl.auth.NTLMEngineImpl
+        </quarkus.native.additional-build-args>
       </properties>
     </profile>
   </profiles>
