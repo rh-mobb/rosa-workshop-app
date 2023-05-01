@@ -56,7 +56,7 @@ spec:
 
   steps:
   - name: package-maven
-    image: gcr.io/cloud-builders/mvn
+    image: adoptopenjdk/maven-openjdk11
     workingDir: $(workspaces.source.path)/$(params.CONTEXT)
     command: ["/usr/bin/mvn"]
     args:
